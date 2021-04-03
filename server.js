@@ -4,7 +4,7 @@ const express = require("express");
 const path = require("path");
 const { v4: uuidv4 } = require('uuid');
 const fs = require("fs");
-const dbJSON = require("./data_poc/db.json");
+const dbJSON = require("./db/db.json");
 
 
 
@@ -31,8 +31,9 @@ app.get("/", function (req, res) {
 });
 
 app.get("/notes", function (req, res) {
+  console.log('notes route works')
   res.sendFile(path.join(__dirname, "./public/notes.html"));
-  //res.json(dbJSON);
+  
 });
 
 
@@ -48,25 +49,6 @@ app.post("/api/notes", function(req, res) {
   }
 
 
-//module.exports = function(app) {
-  
-  
-  //api routes go here
-// app.get("/api/notes", function(req, res) {
-//   res.json(dbJSON);
-// });
-
-// app.post("/api/notes", function(req, res){
-//   noteData.push(req.body);
-//   console.log("data posted");
-// });
-
-// };
-
- //api/note
-  //api/notes
-  //api/note: note
-
   // Copy request body and generate ID
   const note = {...req.body, id: uuidv4()}
 
@@ -77,7 +59,7 @@ app.post("/api/notes", function(req, res) {
 
   // This is needed because when we turn off server we loose all memory data like pbJSON variable.
   // Saving to file allows us to read previous notes (before server was shutdown) from file.
-  fs.writeFile(path.join(__dirname, "db.json"), JSON.stringify(dbJSON), (err) => {
+  fs.writeFile(path.join(__dirname, "./db/db.json"), JSON.stringify(dbJSON), (err) => {
     if (err) {
       return res.json({error: "Error writing to file"});
     }
@@ -98,7 +80,7 @@ app.delete("/api/notes/:id", function (req, res) {
     }
   });
   console.log(dbJSON);
-  fs.writeFile("db/db.json". jSON.stringify(dbJSON), function (error) {
+  fs.writeFile("./db/db.json". jSON.stringify(dbJSON), function (error) {
     if (err)
     throw err;
     return res.json(true);
