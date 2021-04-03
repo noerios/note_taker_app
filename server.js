@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 3000;
 // Sets up the Express app to handle data parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("/public"));
+app.use(express.static("./public"));
 
 
 
@@ -27,11 +27,11 @@ app.use(express.static("/public"));
 // Basic route that sends the user first to the AJAX Page
 
 app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
+  res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "/public/notes.html"));
+  res.sendFile(path.join(__dirname, "./public/notes.html"));
   //res.json(dbJSON);
 });
 
@@ -86,9 +86,6 @@ app.post("/api/notes", function(req, res) {
   });
 });
 
-app.get("*", function(req, res) {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
-}); //catch all, should be last "get" in file
 
 app.delete("/api/notes/:id", function (req, res) {
   let newId = req.params.id;
@@ -107,6 +104,11 @@ app.delete("/api/notes/:id", function (req, res) {
     return res.json(true);
   });
 });
+
+app.get("*", function(req, res) {
+  res.sendFile(path.join(__dirname, "./public/index.html"));
+}); //catch all, should be last "get" in file
+
 
 // Starts the server to begin listening
 // =============================================================
